@@ -1,0 +1,25 @@
+{
+    "name": "solodkiy/mysql-error-parser",
+    "description": "Parsing MySQL error messages to structured format",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexey Solodkiy",
+            "email": "alexey@solodkiy.by"
+        }
+    ],
+    "require": {
+        "php": "~7.1"
+    },
+    "require-dev": {
+        "ext-dom": "*",
+        "symfony/console": "^4.3",
+        "aza/phpgen": "^1.1",
+        "phpunit/phpunit" : "^7.5",
+        "symplify/easy-coding-standard": "^6.0"
+    },
+    "autoload": {
+        "psr-4": {"Solodkiy\\MysqlErrorsParser\\": "src/"}
+    }
+}

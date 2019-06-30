@@ -1,0 +1,12 @@
+imports:
+  - { resource: 'vendor/symplify/easy-coding-standard/config/set/clean-code.yaml' }
+  - { resource: 'vendor/symplify/easy-coding-standard/config/set/php71.yaml' }
+  - { resource: 'vendor/symplify/easy-coding-standard/config/set/common.yaml' }
+  - { resource: 'vendor/symplify/easy-coding-standard/config/set/psr12.yaml' }
+
+parameters:
+  skip:
+    PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer: ~
+    PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer: ~
+    PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer: ~
+    PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer: ~

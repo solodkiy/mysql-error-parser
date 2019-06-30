@@ -1,0 +1,18 @@
+#!/bin/env php
+<?php
+declare(strict_types=1);
+
+use Solodkiy\MysqlErrorsParser\Generator\ExtractListCommand;
+use Symfony\Component\Console\Application;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+if (!class_exists(Application::class)) {
+    echo 'Please install dev dependencies if you want use this generator'."\n";
+    exit(1);
+}
+
+$app = new Application();
+$app->add(new ExtractListCommand());
+$app->run();
+
