@@ -28,3 +28,9 @@ array(2) {
   'table' => string(13) "unknown_table"
 }
 ```
+
+Install
+-------
+```
+composer require solodkiy/mysql-error-parser
+```
