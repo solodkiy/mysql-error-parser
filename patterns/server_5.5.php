@@ -857,13 +857,13 @@ return [
 		"code"      => 1142,
 		"symbol"    => "ER_TABLEACCESS_DENIED_ERROR",
 		"sql_state" => "42000",
-		"template"  => "{#p1} command denied to user '{#p2}'@'{#p3}' for table '{#p4}'",
+		"template"  => "{#command} command denied to user '{#user}'@'{user_from}' for table '{#table}'",
 	],
 	[
 		"code"      => 1143,
 		"symbol"    => "ER_COLUMNACCESS_DENIED_ERROR",
 		"sql_state" => "42000",
-		"template"  => "{#p1} command denied to user '{#p2}'@'{#p3}' for column '{#p4}' in table '{#p5}'",
+		"template"  => "{#command} command denied to user '{#user}'@'{user_from}' for column '{#column}' in table '{#table}'",
 	],
 	[
 		"code"      => 1144,
@@ -2201,7 +2201,7 @@ return [
 		"code"      => 1366,
 		"symbol"    => "ER_TRUNCATED_WRONG_VALUE_FOR_FIELD",
 		"sql_state" => "HY000",
-		"template"  => "Incorrect {#p1} value: '{#p2}' for column '{#p3}' at row {p4}",
+		"template"  => "Incorrect {#type} value: '{value}' for column '{column}' at row {row}",
 	],
 	[
 		"code"      => 1367,
