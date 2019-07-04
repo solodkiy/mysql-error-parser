@@ -6,7 +6,8 @@ namespace Solodkiy\MysqlErrorsParser;
 
 final class PatternMatcher
 {
-    private const PATTERNS_LIST_FILE = __DIR__ . '/../patterns/server_5.7.php';
+    private const SERVER_PATTERNS_LIST_FILE = __DIR__ . '/../patterns/server_5.7.php';
+    private const CLIENT_PATTERNS_LIST_FILE = __DIR__ . '/../patterns/client_5.7.php';
 
     private const PARAM_REGEX = '~\{#?([a-z0-9_-]+)\}~';
 
@@ -30,7 +31,11 @@ final class PatternMatcher
     private function loadData(): array
     {
         /** @noinspection PhpIncludeInspection */
-        return require self::PATTERNS_LIST_FILE;
+        $server = require self::SERVER_PATTERNS_LIST_FILE;
+        /** @noinspection PhpIncludeInspection */
+        $client = require self::CLIENT_PATTERNS_LIST_FILE;
+
+        return array_merge($server, $client);
     }
 
     private function indexList(array $list)
