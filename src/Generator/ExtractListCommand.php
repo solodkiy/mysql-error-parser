@@ -12,6 +12,7 @@ use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ExtractListCommand extends Command
@@ -27,7 +28,8 @@ class ExtractListCommand extends Command
     protected function configure()
     {
         $this->setName('extract-list')
-            ->addArgument('file', InputArgument::REQUIRED);
+            ->addArgument('file', InputArgument::REQUIRED)
+            ->addOption('client', 'c', InputOption::VALUE_NONE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -47,7 +49,7 @@ class ExtractListCommand extends Command
         $compare = require __DIR__ . '/../../patterns/server_5.7.php';
 
         foreach ($nodes as $liNode) {
-            $error = $this->extractError($liNode, $i);
+            $error = $this->extractError($liNode, $i, $input->getOption('client'));
 
             $cleanTemplate = $this->cleanTemplate($error['template']);
             foreach ($compare as $compareItem) {
@@ -74,16 +76,25 @@ class ExtractListCommand extends Command
         echo '<?php ' . "\n\n" . 'return ' . $phpGen->getCode($errors) . "\n";
     }
 
-    private function extractError(DOMElement $liNode, int $nodeNumber)
+    private function extractError(DOMElement $liNode, int $nodeNumber, bool $clientError)
     {
         $codes = iterator_to_array($liNode->getElementsByTagName('code'));
         $codes = array_map(function (DOMElement $element): string {
             return $element->nodeValue;
         }, $codes);
-        if (count($codes) < 3) {
-            throw new RuntimeException('Failed to parse node #' . $nodeNumber);
+
+        if ($clientError) {
+            if (count($codes) < 2) {
+                throw new RuntimeException('Failed to parse node #' . $nodeNumber);
+            }
+            [$errorNumber, $symbol] = $codes;
+            $sqlState = null;
+        } else {
+            if (count($codes) < 3) {
+                throw new RuntimeException('Failed to parse node #' . $nodeNumber);
+            }
+            [$errorNumber, $symbol, $sqlState] = $codes;
         }
-        [$errorNumber, $symbol, $sqlState] = $codes;
 
         $ps = iterator_to_array($liNode->getElementsByTagName('p'));
         $messageBlock = $ps[1] ?? new DOMElement('empty', '', '');
@@ -92,12 +103,17 @@ class ExtractListCommand extends Command
             throw new RuntimeException('Failed to extract message template. Node #' . $nodeNumber);
         }
 
-        return [
+        $result = [
             'code' => intval($errorNumber),
             'symbol' => $symbol,
             'sql_state' => $sqlState,
             'template' => $this->convertPercentTemplateToBracketTemplate($template),
         ];
+        if (is_null($sqlState)) {
+            unset($result['sql_state']);
+        }
+
+        return $result;
     }
 
     private function convertPercentTemplateToBracketTemplate(string $percentTemplate)

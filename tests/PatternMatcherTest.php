@@ -107,7 +107,18 @@ class PatternMatcherTest extends TestCase
                         'table' => 'RemoveBets_201906',
                     ]
                 )
-            ]
+            ],
+            '2002' => [
+                2002,
+                "Can't connect to local MySQL server through socket '/var/lib/mysql/mysql.sock' (38)",
+                new ParameterizedMessage(
+                    "Can't connect to local MySQL server through socket '{#p1}' ({p2})",
+                    [
+                        'p1' => '/var/lib/mysql/mysql.sock',
+                        'p2' => '38',
+                    ]
+                )
+            ],
         ];
     }
 
