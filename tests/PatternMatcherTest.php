@@ -119,6 +119,18 @@ class PatternMatcherTest extends TestCase
                     ]
                 )
             ],
+            '3170' => [
+                3170,
+                "Memory capacity of 8388608 bytes for 'range_optimizer_max_mem_size' exceeded. Range optimization was not done for this query.",
+                new ParameterizedMessage(
+                    "Memory capacity of {bytes} bytes for '{#param}' exceeded. {#message}",
+                    [
+                        'bytes' => '8388608',
+                        'param' => 'range_optimizer_max_mem_size',
+                        'message' => 'Range optimization was not done for this query.'
+                    ]
+                )
+            ],
         ];
     }
 

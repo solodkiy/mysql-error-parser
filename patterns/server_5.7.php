@@ -1153,7 +1153,7 @@ $new = [
 		"code"      => 3170,
 		"symbol"    => "ER_CAPACITY_EXCEEDED",
 		"sql_state" => "HY000",
-		"template"  => "Memory capacity of %llu bytes for '{#p1}' exceeded. {#p2}",
+		"template"  => "Memory capacity of {bytes} bytes for '{#param}' exceeded. {#message}",
 	],
 	[
 		"code"      => 3171,
