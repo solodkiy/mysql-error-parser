@@ -1463,7 +1463,7 @@ return [
 		"code"      => 1243,
 		"symbol"    => "ER_UNKNOWN_STMT_HANDLER",
 		"sql_state" => "HY000",
-		"template"  => "Unknown prepared statement handler (%.*s) given to {#p1}",
+		"template"  => "Unknown prepared statement handler ({#handler}) given to {#p1}",
 	],
 	[
 		"code"      => 1244,
@@ -1805,7 +1805,7 @@ return [
 		"code"      => 1300,
 		"symbol"    => "ER_INVALID_CHARACTER_STRING",
 		"sql_state" => "HY000",
-		"template"  => "Invalid {#p1} character string: '{#p2}'",
+		"template"  => "Invalid {#charset} character string: '{value}'",
 	],
 	[
 		"code"      => 1301,
@@ -4217,7 +4217,7 @@ return [
 		"code"      => 1700,
 		"symbol"    => "ER_GRANT_PLUGIN_USER_EXISTS",
 		"sql_state" => "HY000",
-		"template"  => "GRANT with IDENTIFIED WITH is illegal because the user %-.*s already exists",
+		"template"  => "GRANT with IDENTIFIED WITH is illegal because the user {#user} already exists",
 	],
 	[
 		"code"      => 1701,

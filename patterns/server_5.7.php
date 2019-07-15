@@ -805,19 +805,19 @@ $new = [
 		"code"      => 3113,
 		"symbol"    => "ER_CANT_REPLICATE_ANONYMOUS_WITH_AUTO_POSITION",
 		"sql_state" => "HY000",
-		"template"  => "Cannot replicate anonymous transaction when AUTO_POSITION = 1, at file {#p1}, position %lld.",
+		"template"  => "Cannot replicate anonymous transaction when AUTO_POSITION = 1, at file {file}, position {position}.",
 	],
 	[
 		"code"      => 3114,
 		"symbol"    => "ER_CANT_REPLICATE_ANONYMOUS_WITH_GTID_MODE_ON",
 		"sql_state" => "HY000",
-		"template"  => "Cannot replicate anonymous transaction when @@GLOBAL.GTID_MODE = ON, at file {#p1}, position %lld.",
+		"template"  => "Cannot replicate anonymous transaction when @@GLOBAL.GTID_MODE = ON, at file {file}, position {position}.",
 	],
 	[
 		"code"      => 3115,
 		"symbol"    => "ER_CANT_REPLICATE_GTID_WITH_GTID_MODE_OFF",
 		"sql_state" => "HY000",
-		"template"  => "Cannot replicate GTID-transaction when @@GLOBAL.GTID_MODE = OFF, at file {#p1}, position %lld.",
+		"template"  => "Cannot replicate GTID-transaction when @@GLOBAL.GTID_MODE = OFF, at file {file}, position {position}.",
 	],
 	[
 		"code"      => 3116,
@@ -949,13 +949,13 @@ $new = [
 		"code"      => 3136,
 		"symbol"    => "ER_VTOKEN_PLUGIN_TOKEN_MISMATCH",
 		"sql_state" => "HY000",
-		"template"  => "Version token mismatch for %.*s. Correct value %.*s",
+		"template"  => "Version token mismatch for {#p1}. Correct value {#value}",
 	],
 	[
 		"code"      => 3137,
 		"symbol"    => "ER_VTOKEN_PLUGIN_TOKEN_NOT_FOUND",
 		"sql_state" => "HY000",
-		"template"  => "Version token %.*s not found.",
+		"template"  => "Version token {#token} not found.",
 	],
 	[
 		"code"      => 3138,

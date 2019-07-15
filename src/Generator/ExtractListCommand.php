@@ -120,10 +120,10 @@ class ExtractListCommand extends Command
     {
         $paramNumber = 1;
         return preg_replace_callback(
-            '/%([sdu]|lu|ld|llu)/', // ["%s", "%d", "%lu", "%ld", "%u", "%llu"]
+            '/%([sdu]|ll?u|ll?d|-?\.\*s)/', // ["%s", "%d", "%lu", "%ld", "lld", "%u", "%llu", "%-.*s", "%.*s"]
             function (array $match) use (&$paramNumber) {
                 $pattern = $match[1];
-                $result = $pattern === 's' ? '{#p' . $paramNumber . '}' : '{p' . $paramNumber . '}';
+                $result = in_array($pattern, ['s', '-.*s', '.*s'], true) ? '{#p' . $paramNumber . '}' : '{p' . $paramNumber . '}';
                 $paramNumber++;
                 return $result;
             },
