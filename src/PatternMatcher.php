@@ -6,8 +6,8 @@ namespace Solodkiy\MysqlErrorsParser;
 
 final class PatternMatcher
 {
-    private const SERVER_PATTERNS_LIST_FILE = __DIR__ . '/../patterns/server_5.7.php';
-    private const CLIENT_PATTERNS_LIST_FILE = __DIR__ . '/../patterns/client_5.7.php';
+    private const SERVER_PATTERNS_LIST_FILE = __DIR__ . '/../patterns/server_8.0.php';
+    private const CLIENT_PATTERNS_LIST_FILE = __DIR__ . '/../patterns/client_8.0.php';
 
     private const PARAM_REGEX = '~\{#?([a-z0-9_-]+)\}~';
 

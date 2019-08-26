@@ -21,5 +21,8 @@
     },
     "autoload": {
         "psr-4": {"Solodkiy\\MysqlErrorsParser\\": "src/"}
+    },
+    "archive": {
+        "exclude": ["/src/Generator/data_source"]
     }
 }
