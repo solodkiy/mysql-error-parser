@@ -1,6 +1,6 @@
 <?php
 
-$previous = require __DIR__ . '/client_5.5.php';
+$previous = require __DIR__ . '/client_5.6.php';
 
 $new = [
     [
