@@ -29,6 +29,7 @@ class ExtractListCommand extends Command
     {
         $this->setName('extract-list')
             ->addArgument('file', InputArgument::REQUIRED)
+            ->addArgument('compare', InputArgument::OPTIONAL)
             ->addOption('client', 'c', InputOption::VALUE_NONE);
     }
 
@@ -38,6 +39,11 @@ class ExtractListCommand extends Command
         if (!is_file($filePath)) {
             throw new RuntimeException('Source file ' . $filePath . ' not found');
         }
+        $comparePath = $input->getArgument('compare');
+        if ($comparePath && !is_file($comparePath)) {
+            throw new RuntimeException('Compare file ' . $comparePath. ' not found');
+        }
+
         $content = file_get_contents($filePath);
         $dom = new DOMDocument();
         $dom->loadHTML($content);
@@ -46,10 +52,18 @@ class ExtractListCommand extends Command
         $i = 0;
         $errors = [];
 
-        $compare = require __DIR__ . '/../../patterns/server_5.7.php';
+        if ($comparePath) {
+            /** @noinspection PhpIncludeInspection */
+            $compare = require $comparePath;
+        } else {
+            $compare = [];
+        }
 
         foreach ($nodes as $liNode) {
             $error = $this->extractError($liNode, $i, $input->getOption('client'));
+            if (!$error) {
+                continue;
+            }
 
             $cleanTemplate = $this->cleanTemplate($error['template']);
             foreach ($compare as $compareItem) {
@@ -76,7 +90,7 @@ class ExtractListCommand extends Command
         echo '<?php ' . "\n\n" . 'return ' . $phpGen->getCode($errors) . "\n";
     }
 
-    private function extractError(DOMElement $liNode, int $nodeNumber, bool $clientError)
+    private function extractError(DOMElement $liNode, int $nodeNumber, bool $clientError) : ?array
     {
         $codes = iterator_to_array($liNode->getElementsByTagName('code'));
         $codes = array_map(function (DOMElement $element): string {
@@ -99,8 +113,15 @@ class ExtractListCommand extends Command
         $ps = iterator_to_array($liNode->getElementsByTagName('p'));
         $messageBlock = $ps[1] ?? new DOMElement('empty', '', '');
         $template = $this->extractMessageFromBlock($messageBlock);
-        if (!$template) {
+        if (is_null($template)) {
             throw new RuntimeException('Failed to extract message template. Node #' . $nodeNumber);
+        }
+        if (!$template) {
+            return null;
+        }
+
+        if (!is_numeric($errorNumber)) {
+            return null;
         }
 
         $result = [
@@ -120,7 +141,7 @@ class ExtractListCommand extends Command
     {
         $paramNumber = 1;
         return preg_replace_callback(
-            '/%([sdu]|ll?u|ll?d|-?\.\*s)/', // ["%s", "%d", "%lu", "%ld", "lld", "%u", "%llu", "%-.*s", "%.*s"]
+            '/%([sdufc]|ll?u|ll?d|-?\.\*s)/', // ["%s", "%d", "%lu", "%ld", "lld", "%u", "%llu", "%-.*s", "%.*s", "%f"]
             function (array $match) use (&$paramNumber) {
                 $pattern = $match[1];
                 $result = in_array($pattern, ['s', '-.*s', '.*s'], true) ? '{#p' . $paramNumber . '}' : '{p' . $paramNumber . '}';
@@ -137,6 +158,10 @@ class ExtractListCommand extends Command
         if (strpos($nodeValue, 'Message: ') === 0) {
             $message = substr($nodeValue, 9);
             return preg_replace('~\n\s+~', ' ', $message);
+        }
+
+        if ($nodeValue === 'Message:') {
+            return '';
         }
 
         return null;
