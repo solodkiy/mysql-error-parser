@@ -1,7 +1,7 @@
 MySQL error parser
 ==================
 
-This lib provides regex patterns for all mysql server errors from version 5.5 to 5.7.  
+This lib provides regex patterns for all mysql server errors from version 5.5 to 8.0.  
 It can be used for extracting detailed information from your mysql errors and future analisys.
 
 **Usage example**
